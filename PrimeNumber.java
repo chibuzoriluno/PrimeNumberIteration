@@ -9,27 +9,42 @@ import java.util.Scanner;
 
 public class primeNumber{
     
-    private static void findFactors(int number) {
-        StringBuilder factors = new StringBuilder();
-        int counter = 0;
-        for (int i = 2; i < number; i++) {
-            if (number % i == 0) {
-                if (factors.length() > 0) {
-                    factors.append(",");
-                }
-                factors.append(i);
+    private static Result findFactors(int number) {
+    StringBuilder factors = new StringBuilder();
+    int counter = 0;
+    for (int i = 2; i < number; i++) {
+        if (number % i == 0) {
+            if (factors.length() > 0) {
+                factors.append(",");
             }
-            counter++;
+            factors.append(i);
         }
-
-        if (factors.length() > 0) {
-            System.out.println(number + " is a composite number and its factors are -> " + factors.toString());
-            System.out.println("With 1st method, number of iteration  is: " + counter);
-        } else {
-            System.out.println(number + " is a prime number and its factors are -> " + factors.toString());
-            System.out.println("With 1st method, number of iteration  is: " + counter);
-        }
+        counter++;
     }
+
+    
+
+    return new Result(counter, factors.toString());
+}
+    
+    private static class Result {
+    private final int iterations;
+    private final String factors;
+
+    public Result(int iterations, String factors) {
+        this.iterations = iterations;
+        this.factors = factors;
+    }
+
+    public int getIterations() {
+        return iterations;
+    }
+
+    public String getFactors() {
+        return factors;
+    }
+}
+
     
      public static PrimeResult isPrime(int n, int k) {
         if (n <= 1 || n == 4)
@@ -136,9 +151,14 @@ public class primeNumber{
                     System.out.print("Enter a number: ");
                     int num = scanner.nextInt();
                     
-                    findFactors(num);
+                    int counting;
+                    String factzz;
                     
-                    int p_iterations = 10; // Number of possible iterations for the Miller-Rabin test
+                    Result result1 = findFactors(num);
+                    counting = result1.getIterations();
+                    factzz = result1.getFactors();
+                    
+                    int p_iterations = 5; // Number of possible iterations for the Miller-Rabin test
                     boolean isPrime;
                     int iterationCount;
 
@@ -146,23 +166,32 @@ public class primeNumber{
                     PrimeResult result = isPrime(num, p_iterations);
                     isPrime = result.isPrime;
                     iterationCount = result.iterations;
-
-                    if (isPrime) {
-                        //System.out.println(num + " is a prime number.");
+                    
+                    if (factzz.length() > 0 && !isPrime) {
+                        System.out.println(num + " is a composite number and its factors are -> " + factzz);
+                        HashSet<Integer> factorrs = findLowestFactors(num);
+                        ArrayList<Integer> factorList = new ArrayList<>(factorrs);
+                        System.out.print(num + " is a composite number and its lowest or prime factors are: ");
+                        for (int i = 0; i < factorList.size(); i++) {
+                            System.out.print(factorList.get(i));
+                            if (i < factorrs.size() - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("With 1st method, number of iterations is: " + counting);
                         System.out.println("With 2nd method, number of iteration  is: " + iterationCount);
                     } else {
-                        //System.out.println(num + " is a composite number.");
+                        System.out.println(num + " is a prime number and its factors are -> " + factzz);
+                        HashSet<Integer> factorrs = findLowestFactors(num);
+                        ArrayList<Integer> factorList = new ArrayList<>(factorrs);
+                        System.out.print(num + " is a prime number and its lowest or prime factors are: ");
+                        System.out.println();
+                        System.out.println("With 1st method, number of iterations is: " + counting);
                         System.out.println("With 2nd method, number of iteration  is: " + iterationCount);
-                        //HashSet<Integer> factorrs = findLowestFactors(num);
-                        //ArrayList<Integer> factorList = new ArrayList<>(factorrs);
-                        //System.out.print("Factors: ");
-                        //for (int i = 0; i < factorList.size(); i++) {
-                          //  System.out.print(factorList.get(i));
-                            //if (i < factorrs.size() - 1) {
-                              //  System.out.print(", ");
-                            //}
-                        //}
                     }
+
+                    
                         System.out.println();
                     
                     break;
