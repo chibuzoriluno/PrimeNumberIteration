@@ -81,8 +81,8 @@ public class primeNumber{
         a = a % n;
 
         while (b > 0) {
-            if (b % 2 == 1)
-                result = (result * a) % n;
+            if (b % 2 == 1){
+                result = (result * a) % n;}
             b /= 2;
             a = (a * a) % n;
         }
@@ -138,12 +138,12 @@ public class primeNumber{
                     
                     findFactors(num);
                     
-                    int iterations = 10; // Number of iterations for the Miller-Rabin test
+                    int p_iterations = 10; // Number of possible iterations for the Miller-Rabin test
                     boolean isPrime;
                     int iterationCount;
 
                     // Call the isPrime method and retrieve the result and iteration count
-                    PrimeResult result = isPrime(num, iterations);
+                    PrimeResult result = isPrime(num, p_iterations);
                     isPrime = result.isPrime;
                     iterationCount = result.iterations;
 
